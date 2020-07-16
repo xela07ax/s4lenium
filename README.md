@@ -1,4 +1,4 @@
-# Selenium Go package from tebekka
+# Selenium Go package from tebeka/selenium
 Usage
 
 ```go
