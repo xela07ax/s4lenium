@@ -1,10 +1,10 @@
-package Docs_test
+package main
 
 import (
-	"github.com/xela07ax/s4lenium"
+	"fmt"
 	"github.com/xela07ax/toolsXela/chLogger"
 	"github.com/xela07ax/toolsXela/tp"
-	"fmt"
+	"github.com/xela07ax/s4lenium"
 	"path/filepath"
 	"time"
 )
