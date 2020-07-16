@@ -1,6 +1,7 @@
-# Selenium Go package from tebeka/selenium
-Usage
-
+# Selenium Go package Alpha from tebeka/selenium
+Пакет создан для уменьшения количества повторений кода инициализации селениума, путем его переиспользования.
+Порядок менять нельзя!
+Использование:
 ```go
 // Создадим экземпляр
 	selen := s4lenium.NewS4len(logEr.ChInLog)
