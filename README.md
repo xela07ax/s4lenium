@@ -9,4 +9,5 @@ Usage
 	// Обязательно!
 	defer service.Stop()
 	defer wd.Quit()
+    selen.Test1(wd)
 ```
