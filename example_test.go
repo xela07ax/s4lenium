@@ -1,4 +1,4 @@
-package main
+package s4lenium_test
 
 import (
 	"fmt"
@@ -6,10 +6,11 @@ import (
 	"github.com/xela07ax/toolsXela/tp"
 	"github.com/xela07ax/s4lenium"
 	"path/filepath"
+	"testing"
 	"time"
 )
 
-func main()  {
+func Test(t *testing.T) {
 	// Создаем логер
 	FullLogPath := filepath.Join("/","log")
 	err := tp.CheckMkdir(FullLogPath)
