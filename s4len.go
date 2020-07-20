@@ -33,33 +33,42 @@ const (
 	dateTicket = "10.07.2020 22:14:04"
 	filePath = "C:\\windows-version.txt"
 )
-func (s *Selen) Initialize(seleniumPath string) (selenium.WebDriver,*selenium.Service, error) {
+func (s *Selen) InitializeLocal(selenPath string) (selenium.WebDriver,*selenium.Service, error) {
 	//1.开启selenium服务
 	//设置selium服务的选项,设置为空。根据需要设置。
-	ops := []selenium.ServiceOption{}
-	service, err := selenium.NewChromeDriverService(seleniumPath, port, ops...)
-	if err != nil {
-		return nil, service, fmt.Errorf("Error starting the ChromeDriver server: %v", err)
-	}
-	//延迟关闭服务
-	//defer service.Stop()
-
-	//2.调用浏览器
-	//设置浏览器兼容性，我们设置浏览器名称为chrome
+	var sPath = "http://127.0.0.1:9515/wd/hub"
+		ops := []selenium.ServiceOption{}
+		service, err := selenium.NewChromeDriverService(selenPath, port, ops...)
+		if err != nil {
+			return nil, service, fmt.Errorf("Error starting the ChromeDriver server: %v", err)
+		}
+		//延迟关闭服务
+		//defer service.Stop()
+		wd, err := s.InitializeRemote(sPath)
+		if err != nil {
+			service.Stop()
+			return nil,nil, fmt.Errorf("Error DefaultURLPrefix the ChromeDriver server: %v", err)
+		}
+		return wd, service, err
+}
+func (s *Selen) InitializeRemote(sPath string) (selenium.WebDriver,error) {
 	caps := selenium.Capabilities{
 		"browserName": "chrome",
+		"enableVNC": true,
 	}
-	//调用浏览器urlPrefix: 测试参考：DefaultURLPrefix = "http://127.0.0.1:4444/wd/hub"
-	wd, err := selenium.NewRemote(caps, "http://127.0.0.1:9515/wd/hub")
-	if err != nil {
-		service.Stop()
-		return wd, service, fmt.Errorf("Error DefaultURLPrefix the ChromeDriver server: %v", err)
-	}
+	//调用浏览器urlPrefix: 测试参考：DefaultURLPrefix = "http://127.0.0.1:4444/wd/hub", "http://172.31.50.74:4444/wd/hub"
+
+	wd, err := selenium.NewRemote(caps, sPath)
+	//if err != nil {
+	//	//service.Stop()
+	//	return wd, fmt.Errorf("Error DefaultURLPrefix the ChromeDriver server: %v", err)
+	//}
 	//defer wd.Quit()
-	return wd, service, nil
+	return wd, err
 }
+
 func (s *Selen) Test1(wd selenium.WebDriver) error  {
-	if err := wd.Get("http://localhost:3036/"); err != nil {
+	if err := wd.Get("http://192.168.99.106:3036/"); err != nil {
 		return err
 	}
 	GetElement(selenium.ByID,"qf_region", wd).SendKeys(regionNum)
